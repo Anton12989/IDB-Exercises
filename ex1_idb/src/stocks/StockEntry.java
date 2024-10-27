@@ -17,6 +17,7 @@ public class StockEntry {
     }
 
     public StockEntry(ByteBuffer bb) {
+        // TODO
         this.id=bb.getLong();
         short nameLength=bb.getShort();
         byte[] companyName=new byte[nameLength];
@@ -52,6 +53,7 @@ public class StockEntry {
     }
 
     public ByteBuffer getBytes() {
+        // TODO
         short nameLength=(short)name.length();
         byte[] stringToByte=name.getBytes(StandardCharsets.UTF_8);
         ByteBuffer bb=ByteBuffer.allocate(getSerializedLength());
