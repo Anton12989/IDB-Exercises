@@ -14,7 +14,7 @@ public class MapContainer<Value> implements Container<Long, Value> {
 	private List<statusOfKeys> listOfKeys = new ArrayList<>();
 	private List<Value> listOfValues = new ArrayList<>();
 	private int lastUsedKey;
-	private int sizeOfContainer;
+	private MetaData metaData = new MetaData();
 
 
 
@@ -25,7 +25,11 @@ public class MapContainer<Value> implements Container<Long, Value> {
 	@Override
 	public MetaData getMetaData() {
 		// TODO
-		return null;
+		if(isContainerOpen == false)
+		{
+			throw new IllegalStateException();
+		}
+		return metaData;
 	}
 	
 	@Override
@@ -51,9 +55,6 @@ public class MapContainer<Value> implements Container<Long, Value> {
 		// TODO
 		if(isContainerOpen == false){
 			throw new IllegalStateException();
-		}
-		if((lastUsedKey + 1) == sizeOfContainer){
-			throw new RuntimeException("No more new keys available in list of keys");
 		}
 		Long newKey = (long) (lastUsedKey + 1);
 		lastUsedKey = lastUsedKey + 1;
@@ -107,7 +108,7 @@ public class MapContainer<Value> implements Container<Long, Value> {
 		} else if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.used)
 		{
 			listOfValues.remove(Math.toIntExact(key));
-			listOfKeys.set(Math.toIntExact(key), statusOfKeys.reserved);
+			listOfKeys.set(Math.toIntExact(key), statusOfKeys.removed);
 
 		}
 	}
