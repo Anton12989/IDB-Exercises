@@ -113,5 +113,17 @@ public class SimpleFileContainer<Value> implements Container<Long, Value> {
 	@Override
 	public void remove(Long key) throws NoSuchElementException {
 		// TODO
-	}
+
+        try {
+			long position = key * (typeSerializer.getSerializedSize() + 1);
+            containerDataFile.seek(position);
+			if(containerDataFile.readByte() == 1){
+				throw new NoSuchElementException("Already deleted");
+			}
+			containerDataFile.writeByte(1);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }
