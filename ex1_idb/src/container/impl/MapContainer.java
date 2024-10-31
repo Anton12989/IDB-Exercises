@@ -13,7 +13,7 @@ public class MapContainer<Value> implements Container<Long, Value> {
 	private enum statusOfKeys  {reserved, used, removed};
 	private List<statusOfKeys> listOfKeys = new ArrayList<>();
 	private List<Value> listOfValues = new ArrayList<>();
-	private int lastUsedKey;
+	private int lastUsedKey = -1;
 	private MetaData metaData = new MetaData();
 
 
@@ -72,7 +72,13 @@ public class MapContainer<Value> implements Container<Long, Value> {
 		}
 		if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.used){
 			return listOfValues.get(Math.toIntExact(key));
-		}else{
+		}else if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.removed){
+			throw new NoSuchElementException("Key deleted");
+		}
+		else if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.reserved){
+			throw new NoSuchElementException("value not added to key");
+		}
+		else{
 			throw new NoSuchElementException();
 		}
 	}
@@ -87,6 +93,7 @@ public class MapContainer<Value> implements Container<Long, Value> {
 			throw new NoSuchElementException();
 		} else if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.reserved){
 			listOfValues.add(Math.toIntExact(key), value);
+			listOfKeys.set(Math.toIntExact(key), statusOfKeys.used);
 		} else if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.used){
 			listOfValues.set(Math.toIntExact(key), value);
 		} else if(listOfKeys.get(Math.toIntExact(key)) == statusOfKeys.removed){
