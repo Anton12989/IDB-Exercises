@@ -29,6 +29,7 @@ public class MapContainer<Value> implements Container<Long, Value> {
 		{
 			throw new IllegalStateException();
 		}
+		metaData.setIntProperty("numberOfKeys", lastUsedKey);
 		return metaData;
 	}
 	
