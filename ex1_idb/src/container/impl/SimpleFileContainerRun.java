@@ -1,7 +1,6 @@
 package container.impl;
 
 import io.IntSerializer;
-import util.MetaData;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +9,7 @@ import java.nio.file.Paths;
 
 public class SimpleFileContainerRun {
     public static void main(String[] args) {
+
         Path directory = Paths.get("data");
         String filenamePrefix = "integer_container";
         try {
@@ -22,17 +22,22 @@ public class SimpleFileContainerRun {
 
         container.open();
 
-        Long key1 = 0L;
-        container.update(key1, 22);
-        Long key2 = container.reserve();
-        container.update(key2, 7000);
-        Long key3 = container.reserve();
-        container.update(key3, 256);
+        container.insert(4000); // 0
+        container.insert(29);   // 1
+        container.insert(50);   // 2
+        container.insert(800);  // 3
+        container.insert(250);  // 4
+//        container.update(3L,50);
 
+        long pos=3L;
+//        container.remove(pos);
+        int a=container.get(pos);
+        System.out.println("Value at pos "+pos+" is : " +a);
+
+
+//        MetaData metaData = container.getMetaData();
+//        System.out.println("Metadata:");
+//        System.out.println("Key counter: " + metaData.getLongProperty("keyCounter"));
         container.close();
-
-        MetaData metaData = container.getMetaData();
-        System.out.println("Metadata:");
-        System.out.println("Key counter: " + metaData.getLongProperty("keyCounter"));
     }
 }
