@@ -9,17 +9,22 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class MapContainer<Value> implements Container<Long, Value> {
-	private boolean isContainerOpen = false;
+	private boolean isContainerOpen ;
 	private enum statusOfKeys  {reserved, used, removed};
-	private List<statusOfKeys> listOfKeys = new ArrayList<>();
-	private List<Value> listOfValues = new ArrayList<>();
-	private int lastUsedKey = -1;
-	private MetaData metaData = new MetaData();
+	private List<statusOfKeys> listOfKeys ;
+	private List<Value> listOfValues ;
+	private int lastUsedKey;
+	private MetaData metaData;
 
 
 
 	public MapContainer() {
 		// TODO
+		this.isContainerOpen = true;
+		this.metaData = new MetaData();
+		this.listOfKeys = new ArrayList<>();
+		this.listOfValues = new ArrayList<>();
+		this.lastUsedKey = -1;
 	}
 
 	@Override
